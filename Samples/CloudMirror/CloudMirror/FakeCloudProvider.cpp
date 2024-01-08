@@ -39,6 +39,7 @@ CF_CALLBACK_REGISTRATION FakeCloudProvider::s_MirrorCallbackTable[] =
 {
     { CF_CALLBACK_TYPE_FETCH_DATA, FakeCloudProvider::OnFetchData },
     { CF_CALLBACK_TYPE_CANCEL_FETCH_DATA, FakeCloudProvider::OnCancelFetchData },
+    { CF_CALLBACK_TYPE_NOTIFY_DELETE, FakeCloudProvider::OnFileOrFolderDelete },
     CF_CALLBACK_REGISTRATION_END
 };
 
@@ -61,7 +62,7 @@ bool FakeCloudProvider::Start(_In_opt_ LPCWSTR serverFolder, _In_opt_ LPCWSTR cl
         ConnectSyncRootTransferCallbacks();
         // Create the placeholders in the client folder so the user sees something
         Placeholders::Create(ProviderFolderLocations::GetServerFolder(), L"", ProviderFolderLocations::GetClientFolder());
-        
+
         // Stage 2: Running
         //--------------------------------------------------------------------------------------------
         // The file watcher loop for this sample will run until the user presses Ctrl-C.
@@ -102,6 +103,79 @@ void CALLBACK FakeCloudProvider::OnCancelFetchData(
     _In_ CONST CF_CALLBACK_PARAMETERS* callbackParameters)
 {
     FileCopierWithProgress::CancelCopyFromServerToClient(callbackInfo, callbackParameters);
+}
+
+void CALLBACK FakeCloudProvider::OnFileOrFolderDelete(
+    _In_ CONST CF_CALLBACK_INFO* callbackInfo,
+    _In_ CONST CF_CALLBACK_PARAMETERS* callbackParameters)
+{
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    std::tm localTime;
+    localtime_s(&localTime, &currentTime);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+
+    std::wstring fullClientPath(callbackInfo->VolumeDosName);
+    fullClientPath.append(callbackInfo->NormalizedPath);
+
+    //wprintf(L"%04d-%02d-%02d %02d:%02d:%02d.%03lld Path = %s\n", localTime.tm_year + 1900, localTime.tm_mon + 1, localTime.tm_mday,
+    //    localTime.tm_hour, localTime.tm_min, localTime.tm_sec, ms.count(), fullClientPath.c_str());
+
+    CF_OPERATION_INFO opInfo = { 0 };
+    opInfo.StructSize = sizeof(CF_OPERATION_INFO);
+    opInfo.Type = CF_OPERATION_TYPE_ACK_DELETE;
+    opInfo.ConnectionKey = callbackInfo->ConnectionKey;
+    opInfo.TransferKey = callbackInfo->TransferKey;
+    opInfo.CorrelationVector = callbackInfo->CorrelationVector;
+    opInfo.RequestKey = callbackInfo->RequestKey;
+    CF_OPERATION_PARAMETERS params = { 0 };
+    params.ParamSize = sizeof(CF_OPERATION_PARAMETERS);
+    params.AckDelete.Flags = CF_OPERATION_ACK_DELETE_FLAG_NONE;
+
+    // I have also tested many other error codes.
+    params.AckDelete.CompletionStatus = STATUS_SUCCESS;
+
+    DeleteAction deleteAction;
+    deleteAction.OpInfo = opInfo;
+    deleteAction.Parameters = params;
+    deleteAction.FullPath = fullClientPath;
+
+    std::thread myThread(std::bind(OnNotifyDeleteAction, deleteAction));
+    myThread.detach();
+
+    //HRESULT res = CfExecute(&opInfo, &params);
+    //if (res != 0)
+    //{
+    //    wprintf(L"%04d-%02d-%02d %02d:%02d:%02d.%03lld CfExecute Error\n", localTime.tm_year + 1900, localTime.tm_mon + 1, localTime.tm_mday,
+    //        localTime.tm_hour, localTime.tm_min, localTime.tm_sec, ms.count());
+    //}
+
+    now = std::chrono::system_clock::now();
+    currentTime = std::chrono::system_clock::to_time_t(now);
+    localtime_s(&localTime, &currentTime);
+    ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+    //wprintf(L"%04d-%02d-%02d %02d:%02d:%02d.%03lld OnFileOrFolderDelete end\n", localTime.tm_year + 1900, localTime.tm_mon + 1, localTime.tm_mday,
+    //    localTime.tm_hour, localTime.tm_min, localTime.tm_sec, ms.count());
+    return;
+}
+
+void FakeCloudProvider::OnNotifyDeleteAction(DeleteAction& deleteAction)
+{
+    std::wstring fullPath = deleteAction.FullPath;
+    auto now = std::chrono::system_clock::now();
+    std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+    std::tm localTime;
+    localtime_s(&localTime, &currentTime);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+    wprintf(L"%04d-%02d-%02d %02d:%02d:%02d.%03lld Path = %s\n", localTime.tm_year + 1900, localTime.tm_mon + 1, localTime.tm_mday,
+        localTime.tm_hour, localTime.tm_min, localTime.tm_sec, ms.count(), fullPath.c_str());
+
+    CF_OPERATION_INFO opInfo = deleteAction.OpInfo;
+    CF_OPERATION_PARAMETERS opParams = deleteAction.Parameters;
+    CfExecute(&opInfo, &opParams);
 }
 
 // Registers the callbacks in the table at the top of this file so that the methods above

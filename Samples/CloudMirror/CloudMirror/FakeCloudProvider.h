@@ -6,6 +6,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved
 
 #pragma once
+
+class DeleteAction
+{
+public:
+    CF_OPERATION_INFO OpInfo;
+    CF_OPERATION_PARAMETERS Parameters;
+    std::wstring FullPath;
+    NTSTATUS Status;
+};
+
 class FakeCloudProvider
 {
 public:
@@ -25,6 +35,11 @@ private:
         _In_ CONST CF_CALLBACK_INFO* callbackInfo,
         _In_ CONST CF_CALLBACK_PARAMETERS* callbackParameters);
 
+    static void CALLBACK OnFileOrFolderDelete(
+        _In_ CONST CF_CALLBACK_INFO* callbackInfo,
+        _In_ CONST CF_CALLBACK_PARAMETERS* callbackParameters);
+
+    static void OnNotifyDeleteAction(DeleteAction& deleteAction);
 private:
     static CF_CONNECTION_KEY s_transferCallbackConnectionKey;
     static CF_CALLBACK_REGISTRATION s_MirrorCallbackTable[];

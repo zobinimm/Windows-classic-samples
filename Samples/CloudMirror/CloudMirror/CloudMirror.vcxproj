@@ -106,6 +106,7 @@
     <ClInclude Include="ProviderFolderLocations.h" />
     <ClInclude Include="Placeholders.h" />
     <ClInclude Include="CloudProviderRegistrar.h" />
+    <ClInclude Include="ShellIconOverlay.h" />
     <ClInclude Include="ShellServices.h" />
     <ClInclude Include="MyStatusUISource.h" />
     <ClInclude Include="MyStatusUISourceFactory.h" />
@@ -126,6 +127,7 @@
     <ClCompile Include="ProviderFolderLocations.cpp" />
     <ClCompile Include="Placeholders.cpp" />
     <ClCompile Include="CloudProviderRegistrar.cpp" />
+    <ClCompile Include="ShellIconOverlay.cpp" />
     <ClCompile Include="ShellServices.cpp" />
     <ClCompile Include="Mirror.cpp" />
     <ClCompile Include="MyStatusUISource.cpp" />

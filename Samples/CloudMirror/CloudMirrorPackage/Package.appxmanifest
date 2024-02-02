@@ -55,6 +55,9 @@
               <desktop3:Verb Id="Command1" Clsid="165cd069-d9c8-42b4-8e37-b6971afa4494" />
             </desktop3:CloudFilesContextMenus>
             <desktop4:ContentUriSource Clsid="97961bcb-601c-4950-927c-43b9319c7217"/>
+            <desktop4:DesktopIconOverlayHandlers >
+                <desktop4:DesktopIconOverlayHandler Clsid="D343F9C6-1740-432C-8A99-85D72C0D9569"/>
+            </desktop4:DesktopIconOverlayHandlers>
           </desktop3:CloudFiles>
         </desktop3:Extension>
         <com:Extension Category="windows.comServer">
@@ -73,6 +76,9 @@
             </com:ExeServer>
             <com:ExeServer DisplayName="Cloud Mirror Status UI Source Factory" Executable="CloudMirror\CloudMirror.exe">
               <com:Class Id="b1d8ef74-822d-401a-a14a-25f45b1f70b7" />
+            </com:ExeServer>
+            <com:ExeServer DisplayName="Cloud Mirror ShellIconOverlay Handler" Executable="CloudMirror\CloudMirror.exe">
+                <com:Class Id="D343F9C6-1740-432C-8A99-85D72C0D9569" />
             </com:ExeServer>
           </com:ComServer>
         </com:Extension>

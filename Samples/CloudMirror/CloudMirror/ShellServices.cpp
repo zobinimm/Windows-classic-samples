@@ -14,6 +14,7 @@
 #include "UriSource.h"
 #include "MyStatusUISourceFactory.h"
 #include "MyStorageProviderUICommand.h"
+#include "ShellIconOverlay.h"
 
 //===============================================================
 // ShellServices
@@ -48,6 +49,7 @@ void ShellServices::InitAndStartServiceTask()
         winrt::init_apartment(winrt::apartment_type::single_threaded);
 
         make_and_register_class_object<ThumbnailProvider>();
+        make_and_register_class_object<ShellIconOverlay>();
         make_and_register_class_object<TestExplorerCommandHandler>();
         make_and_register_class_object<winrt::CloudMirror::implementation::CustomStateProvider>();
         make_and_register_class_object<winrt::CloudMirror::implementation::UriSource>();

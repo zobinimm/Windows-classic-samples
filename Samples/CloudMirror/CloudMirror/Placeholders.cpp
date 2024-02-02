@@ -94,6 +94,19 @@ void Placeholders::Create(
                 {
                     wprintf(L"Creating placeholder for %s\n", relativeName.c_str());
                     winrt::check_hresult(CfCreatePlaceholders(fullDestPath.c_str(), &cloudEntry, 1, CF_CREATE_FLAG_NONE, NULL));
+
+                    LPCWSTR iconPath = L"D:\\download\\test.ico";
+                    if (std::filesystem::exists(iconPath) && (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+                    {
+                        
+                        SHFOLDERCUSTOMSETTINGS folderSettings;
+                        memset(&folderSettings, 0, sizeof(SHFOLDERCUSTOMSETTINGS));
+                        folderSettings.dwSize = sizeof(SHFOLDERCUSTOMSETTINGS);
+                        folderSettings.dwMask = FCSM_ICONFILE;
+                        folderSettings.pszIconFile = const_cast<LPWSTR>(iconPath);
+                        folderSettings.cchIconFile = wcslen(iconPath);
+                        SHGetSetFolderCustomSettings(&folderSettings, fullDestPath.c_str(), FCS_FORCEWRITE);
+                    }
                 }
                 catch (...)
                 {

@@ -105,3 +105,38 @@ IFACEMETHODIMP TestExplorerCommandHandler::GetSite(_In_ REFIID riid, _COM_Outptr
     return _site->QueryInterface(riid, site);
 }
 
+
+
+IFACEMETHODIMP GroupTestExplorerCommandHandler::GetTitle(_In_opt_ IShellItemArray* items, _Outptr_result_nullonfailure_ PWSTR* name)
+{
+    *name = nullptr;
+    return SHStrDup(L"GroupTestCommand", name);
+}
+
+IFACEMETHODIMP GroupTestExplorerCommandHandler::GetState(_In_opt_ IShellItemArray*, _In_ BOOL, _Out_ EXPCMDSTATE* cmdState)
+{
+    *cmdState = ECS_ENABLED;
+    return S_OK;
+}
+
+IFACEMETHODIMP GroupTestExplorerCommandHandler::GetFlags(_Out_ EXPCMDFLAGS* flags)
+{
+    *flags = ECF_DEFAULT;
+    return S_OK;
+}
+
+IFACEMETHODIMP GroupTestExplorerCommandHandler::Invoke(_In_opt_ IShellItemArray* selection, _In_opt_ IBindCtx*)
+{
+    return S_OK;
+}
+
+IFACEMETHODIMP GroupTestExplorerCommandHandler::SetSite(_In_opt_ IUnknown* site)
+{
+    _site.copy_from(site);
+    return S_OK;
+}
+IFACEMETHODIMP GroupTestExplorerCommandHandler::GetSite(_In_ REFIID riid, _COM_Outptr_ void** site)
+{
+    return _site->QueryInterface(riid, site);
+}
+

@@ -49,6 +49,7 @@ void ShellServices::InitAndStartServiceTask()
 
         make_and_register_class_object<ThumbnailProvider>();
         make_and_register_class_object<TestExplorerCommandHandler>();
+        make_and_register_class_object<GroupTestExplorerCommandHandler>();
         make_and_register_class_object<winrt::CloudMirror::implementation::CustomStateProvider>();
         make_and_register_class_object<winrt::CloudMirror::implementation::UriSource>();
         make_and_register_class_object<winrt::CloudMirror::implementation::MyStatusUISourceFactory>();

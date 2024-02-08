@@ -85,6 +85,9 @@
     <Content Include="Images\darkTheme\CloudIconSyncing.svg" />
     <Content Include="Images\darkTheme\ProfileIcon.svg" />
     <Content Include="Images\darkTheme\SettingsIcon.svg" />
+    <PRIResource Include="Strings\zh-CN\Resources.resw" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudMirror\CloudMirror.vcxproj" />

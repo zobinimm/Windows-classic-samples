@@ -125,13 +125,13 @@ namespace DesktopToastsSample
                 "<visual>" +
                 "<binding template=\"ToastText04\">" +
                 "<text id=\"1\">Title0123456</text>" +
-                "<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2.Add text without wrap3.Add text without wrap4.Add text without wrap5.</text>" +
-                "<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line.Add text without wrap2 third line.Add text without wrap3 third line.</text>" +
+                "<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2.Add text without wrap3.\nAdd text without wrap4.Add text without wrap5.Add text without wrap6.</text>" +
+                "<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line1.Add text without wrap2 third line2.\nAdd text without wrap3 third line3.</text>" +
 
                 // Use line breaks in text to actively break lines, and display ellipses for non actively breaking lines.
                 // The following code is the desired effect to be achieved
-                //"<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.\nAdd text without wrap2...</text>" +
-                //"<text id=\"3\" hintMaxLines=\"1\">The third line.\nAdd text without wrap1 third line....</text>" +
+                //"<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2...\nAdd text without wrap4.Add text without wrap5...</text>" +
+                //"<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line1...\nAdd text without wrap3 third line2.</text>" +
                 "</binding>" +
                 "</visual>" +
                 "</toast>";

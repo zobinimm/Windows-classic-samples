@@ -120,20 +120,39 @@ namespace DesktopToastsSample
             imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
 
 
-            string xmlString1 =
-                "<toast>" +
-                "<visual>" +
-                "<binding template=\"ToastText04\">" +
-                "<text id=\"1\">Title0123456</text>" +
-                "<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2.Add text without wrap3.\nAdd text without wrap4.Add text without wrap5.Add text without wrap6.</text>" +
-                "<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line1.Add text without wrap2 third line2.\nAdd text without wrap3 third line3.</text>" +
+            //string xmlString1 =
+            //    "<toast>" +
+            //    "<visual>" +
+            //    "<binding template=\"ToastText04\">" +
+            //    "<text id=\"1\">Title0123456</text>" +
+            //    "<text id=\"2\" hint-maxLines=\"1\">Add text without wrap1.Add text without wrap2.Add text without wrap3.\nAdd text without wrap4.Add text without wrap5.Add text without wrap6.</text>" +
+            //    "<text id=\"3\" hint-maxLines=\"1\">The third line.Add text without wrap1 third line1.Add text without wrap2 third line2.\nAdd text without wrap3 third line3.</text>" +
 
-                // Use line breaks in text to actively break lines, and display ellipses for non actively breaking lines.
-                // The following code is the desired effect to be achieved
-                //"<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2...\nAdd text without wrap4.Add text without wrap5...</text>" +
-                //"<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line1...\nAdd text without wrap3 third line2.</text>" +
-                "</binding>" +
-                "</visual>" +
+            //    // Use line breaks in text to actively break lines, and display ellipses for non actively breaking lines.
+            //    // The following code is the desired effect to be achieved
+            //    //"<text id=\"2\" hintMaxLines=\"1\" TextWrapping=\"NoWrap\">Add text without wrap1.Add text without wrap2...\nAdd text without wrap4.Add text without wrap5...</text>" +
+            //    //"<text id=\"3\" hintMaxLines=\"1\">The third line.Add text without wrap1 third line1...\nAdd text without wrap3 third line2.</text>" +
+            //    "</binding>" +
+            //    "</visual>" +
+            //    "</toast>";
+            string xmlString1 =
+                "<toast activationType=\"protocol\">" +
+                 "<visual>" +
+                  "<binding template=\"ToastGeneric\">" +
+                    "<text>Title0123456</text>" +
+                    "<group>" +
+                     "<subgroup>" +
+                      "<text> Pho Licioussdffghhjkkklllkkjjhhhgggggggfffdddssaasddfffgggħhhhhjjjkkkk </text>" +
+                      "<text> 4.6 starsvbbnnhgvvccxxzxxcvvbnnnmmnnbbvvcccvbbnnnmmm.,,,</text>" +
+                     "</subgroup>" +
+                    "</group>" +
+                    "<group>" +
+                     "<subgroup>" +
+                      "<text> 4018 148th Ave NE, Redmond, WA 98052nnnnnbbbvccxxzxcccvvvbbbbnnmmmmmmmmmmmmm </text>" +
+                     "</subgroup>" +
+                    "</group>" +
+                  "</binding>" +
+                 "</visual>" +
                 "</toast>";
             XmlDocument toastXml1 = new XmlDocument();
             toastXml1.LoadXml(xmlString1);
